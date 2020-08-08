@@ -1,0 +1,40 @@
+<mat-form-field appearance="fill">
+    <input matInput />
+    <mat-label>Időszak</mat-label>
+    <mat-select [(value)]="period">
+        <mat-option value="daily">Napi</mat-option>
+        <mat-option value="monthly">Havi</mat-option>
+        <mat-option value="annual">Éves</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<div *ngIf="period=='daily'">
+    <mat-form-field>
+        <mat-label>Aktuális nap</mat-label>
+        <input matInput [matDatepicker]="picker" placeholder="Aktuális nap" (dateInput)="addEvent($event)"
+            (dateChange)="addEvent($event)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
+
+<div *ngIf="period=='monthly'">
+    <mat-form-field>
+        <mat-label>Aktuális hónap</mat-label>
+        <input matInput [matDatepicker]="picker" placeholder="Aktuális hónap" (dateInput)="addEvent($event)"
+            (dateChange)="addEvent($event)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
+
+<div *ngIf="period=='annual'">
+    <mat-form-field appearance="fill">
+        <input matInput />
+        <mat-label>Akutális év</mat-label>
+        <mat-select [(value)]="date">
+            <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
