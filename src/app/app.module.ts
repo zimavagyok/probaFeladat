@@ -12,7 +12,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
+import { DateService } from './service/dateService/date.service';
+import { DatePipe } from '@angular/common';
+import {HighchartsChartModule} from 'highcharts-angular';
 
 
 @NgModule({
@@ -29,9 +31,10 @@ import { MatInputModule } from '@angular/material/input';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule, MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    HighchartsChartModule
   ],
-  providers: [MatDatepickerModule],
+  providers: [MatDatepickerModule,DateService,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
