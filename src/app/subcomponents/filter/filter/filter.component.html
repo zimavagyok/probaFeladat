@@ -9,7 +9,7 @@
 </mat-form-field>
 
 <div *ngIf="period=='daily'">
-    <mat-form-field>
+    <mat-form-field appearance="fill">
         <mat-label>Aktuális nap</mat-label>
         <input matInput [matDatepicker]="picker" placeholder="Aktuális nap" (dateInput)="addEvent($event)"
             (dateChange)="addEvent($event)">
@@ -19,7 +19,7 @@
 </div>
 
 <div *ngIf="period=='monthly'">
-    <mat-form-field>
+    <mat-form-field appearance="fill">
         <mat-label>Aktuális hónap</mat-label>
         <input matInput [matDatepicker]="picker" placeholder="Aktuális hónap" (dateInput)="addEvent($event)"
             (dateChange)="addEvent($event)">
@@ -32,9 +32,8 @@
     <mat-form-field appearance="fill">
         <input matInput />
         <mat-label>Akutális év</mat-label>
-        <mat-select [(value)]="date">
+        <mat-select [(value)]="date" (selectionChange)="selectEvent()">
             <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
         </mat-select>
     </mat-form-field>
 </div>
-

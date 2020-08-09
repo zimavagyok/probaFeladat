@@ -11,7 +11,7 @@ import { DatePipe } from '@angular/common';
 })
 export class FilterComponent implements OnInit {
   period = "daily";
-  date : string;
+  date : string = this.datePipe.transform(new Date(),'yyyy.MM.dd');
   picker: Date;
   today: Date;
   currentYear : number;
@@ -21,12 +21,20 @@ export class FilterComponent implements OnInit {
     if(this.period=="daily")
     {
       this.dateService.changeDate(this.datePipe.transform(`${event.value}`,'yyyy.MM.dd'));
+      this.dateService.changeChartType('line');
     }
     else
     {
       this.dateService.changeDate(this.datePipe.transform(`${event.value}`,'yyyy.LL'));
+      this.dateService.changeChartType('bar');
     }
+
     this.dateService.changePeriodType(this.period);
+  }
+
+  selectEvent()
+  {
+    this.dateService.changeChartType('bar');
   }
 
   constructor(private dateService : DateService, public datePipe : DatePipe) { }

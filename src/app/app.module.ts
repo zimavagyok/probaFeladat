@@ -15,6 +15,10 @@ import { MatInputModule } from '@angular/material/input';
 import { DateService } from './service/dateService/date.service';
 import { DatePipe } from '@angular/common';
 import {HighchartsChartModule} from 'highcharts-angular';
+import {MatCardModule, MatCard} from '@angular/material/card';
+import {MatGridListModule,MatGridTile} from '@angular/material/grid-list';
+
+
 
 
 @NgModule({
@@ -32,6 +36,8 @@ import {HighchartsChartModule} from 'highcharts-angular';
     MatNativeDateModule,
     MatFormFieldModule, MatInputModule,
     MatSelectModule,
+    MatCardModule,
+    MatGridListModule,
     HighchartsChartModule
   ],
   providers: [MatDatepickerModule,DateService,DatePipe],
