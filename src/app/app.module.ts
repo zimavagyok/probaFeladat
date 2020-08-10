@@ -18,6 +18,10 @@ import {HighchartsChartModule} from 'highcharts-angular';
 import {MatCardModule, MatCard} from '@angular/material/card';
 import {MatGridListModule,MatGridTile} from '@angular/material/grid-list';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTableModule} from '@angular/material/table';
+
+
 
 
 
@@ -41,6 +45,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatCardModule,
     MatGridListModule,
     MatButtonModule,
+    MatSnackBarModule,
+    MatTableModule,
     HighchartsChartModule
   ],
   providers: [MatDatepickerModule,DateService,DatePipe],
