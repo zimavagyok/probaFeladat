@@ -17,6 +17,8 @@ import { DatePipe } from '@angular/common';
 import {HighchartsChartModule} from 'highcharts-angular';
 import {MatCardModule, MatCard} from '@angular/material/card';
 import {MatGridListModule,MatGridTile} from '@angular/material/grid-list';
+import {MatButtonModule} from '@angular/material/button';
+
 
 
 
@@ -38,6 +40,7 @@ import {MatGridListModule,MatGridTile} from '@angular/material/grid-list';
     MatSelectModule,
     MatCardModule,
     MatGridListModule,
+    MatButtonModule,
     HighchartsChartModule
   ],
   providers: [MatDatepickerModule,DateService,DatePipe],

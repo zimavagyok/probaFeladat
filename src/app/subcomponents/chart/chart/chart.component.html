@@ -1,1 +1,7 @@
-<mat-card><div id="container"></div></mat-card>
+<mat-card>
+    <mat-card-title>{{periodHun}} termelési adatok (kWh)</mat-card-title>
+    <div id="container"></div>
+    <div class="center">
+    <button mat-button (click)="decrementDate()">Előző</button><button mat-button (click)="incrementDate()">Következő</button>
+    </div>
+</mat-card>

@@ -12,62 +12,90 @@ export class ChartComponent implements OnInit {
 
   categories: string[] = [];
   chartType: string;
+  periodHun: string;
+  currentDate: string;
+  currentPeriodType: string;
+  values: number[] = [];
 
-  
 
-  constructor(public datePipe: DatePipe, public dateService: DateService,private cdr: ChangeDetectorRef) { }
+
+  constructor(public datePipe: DatePipe, public dateService: DateService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.dateService.currentChartType.subscribe(currChartType => { this.chartType = currChartType; this.barChartPopulation(); });
-
-    this.barChartPopulation();
+    this.dateService.currentPeriodType.subscribe(currPeriodType => {
+      if (currPeriodType != null) {
+        this.currentPeriodType = currPeriodType; if (currPeriodType == 'daily') {
+        }
+      } else {
+        this.currentPeriodType = 'daily';
+      }
+    });
+    this.dateService.currentChartType.subscribe(currChartType => { this.chartType = currChartType; this.DayChartPopulation(); });
+    this.dateService.currentPeriodHun.subscribe(currPeriodHun => this.periodHun = currPeriodHun);
+    this.dateService.currentDate.subscribe(currDate => { this.currentDate = currDate; this.DayChartPopulation(); });
   }
 
-  barChartPopulation() {
+  randomGenerator(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  incrementDate() {
+    if (this.currentPeriodType == 'daily') {
+      this.dateService.changeDate(this.datePipe.transform(new Date(new Date(this.currentDate).getTime() + (1000 * 60 * 60 * 24)).toDateString(), 'yyyy.MM.dd'));
+    }
+    else if (this.currentPeriodType == 'monthly') {
+      this.dateService.changeDate(this.datePipe.transform(new Date(new Date(this.currentDate).setMonth(new Date(this.currentDate).getMonth() + 1)).toDateString(), 'yyyy.LL'));
+    }
+    else if (this.currentPeriodType == 'annual') {
+      this.dateService.changeDate((parseInt(this.currentDate) + 1).toString());
+    }
+  }
+
+  decrementDate() {
+    if (this.currentPeriodType == 'daily') {
+      this.dateService.changeDate(this.datePipe.transform(new Date(new Date(this.currentDate).getTime() - (1000 * 60 * 60 * 24)).toDateString(), 'yyyy.MM.dd'));
+    }
+    else if (this.currentPeriodType == 'monthly') {
+      this.dateService.changeDate(this.datePipe.transform(new Date(new Date(this.currentDate).setMonth(new Date(this.currentDate).getMonth() - 1)).toDateString(), 'yyyy.LL'));
+    }
+    else if (this.currentPeriodType == 'annual') {
+      this.dateService.changeDate((parseInt(this.currentDate) - 1).toString());
+    }
+  }
+
+  DayChartPopulation() {
+    this.values = [];
+    for (let i = 0; i < 23; i++) {
+      this.values.push(this.randomGenerator(0, 200));
+    }
     Highcharts.chart('container', {
       chart: {
         type: this.chartType
       },
       title: {
-        text: 'Historic World Population by Region'
+        text: null
       },
       xAxis: {
-        categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania'],
+        type: 'datetime',
+        labels: {
+          formatter: function () {
+            return Highcharts.dateFormat('%H:%M', this.value);
+          }
+        }
       },
       yAxis: {
         min: 0,
         title: {
-          text: 'Population (millions)',
-          align: 'high'
+          text: null,
         },
-      },
-      tooltip: {
-        valueSuffix: ' millions'
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            enabled: true
-          }
-        }
       },
       series: [{
         type: undefined,
-        name: 'Year 1800',
-        data: [107, 31, 635, 203, 2]
-      }, {
-        type: undefined,
-        name: 'Year 1900',
-        data: [133, 156, 947, 408, 6]
-      }, {
-        type: undefined,
-        name: 'Year 2000',
-        data: [814, 841, 3714, 727, 31]
-      }, {
-        type: undefined,
-        name: 'Year 2016',
-        data: [1216, 1001, 4436, 738, 40]
-      }]
+        name: '',
+        data: this.values,
+        pointStart: Number(new Date().setUTCHours(0, 0, 0, 0)),
+        pointInterval: 3600000
+      },]
     });
   }
 
