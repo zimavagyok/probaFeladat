@@ -1,7 +1,7 @@
 <mat-form-field class="inline" appearance="fill">
     <input matInput />
     <mat-label>Időszak</mat-label>
-    <mat-select [(value)]="period">
+    <mat-select [(value)]="inPeriod">
         <mat-option value="daily">Napi</mat-option>
         <mat-option value="monthly">Havi</mat-option>
         <mat-option value="annual">Éves</mat-option>
@@ -9,30 +9,30 @@
 </mat-form-field>
 
 <!--<div *ngIf="period=='daily'" class="inline marginLeft">-->
-    <mat-form-field *ngIf="period=='daily'" class="inline marginLeft" appearance="fill">
+    <mat-form-field *ngIf="inPeriod=='daily'" class="inline marginLeft" appearance="fill">
         <mat-label>Aktuális nap</mat-label>
         <input matInput [matDatepicker]="picker" placeholder="Aktuális nap" (dateInput)="addEvent($event)"
             (dateChange)="addEvent($event)" [value]="dateForm.value">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker [startAt]="dateForm" #picker></mat-datepicker>
+        <mat-datepicker [startAt]="today" #picker></mat-datepicker>
     </mat-form-field>
 <!--</div>-->
 
 <!--<div *ngIf="period=='monthly'" class="inline marginLeft">-->
-    <mat-form-field *ngIf="period=='monthly'" class="inline marginLeft" appearance="fill">
+    <mat-form-field *ngIf="inPeriod=='monthly'" class="inline marginLeft" appearance="fill">
         <mat-label>Aktuális hónap</mat-label>
         <input matInput [matDatepicker]="picker" placeholder="Aktuális hónap" (dateInput)="addEvent($event)"
             (dateChange)="addEvent($event)" [value]="dateForm.value">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker startView="year"></mat-datepicker>
+        <mat-datepicker #picker [startAt]="today" startView="year"></mat-datepicker>
     </mat-form-field>
 <!--</div>-->
 
 <!--<div *ngIf="period=='annual'" class="inline marginLeft">-->
-    <mat-form-field *ngIf="period=='annual'" class="inline marginLeft" appearance="fill">
-        <input matInput [value]="date">
+    <mat-form-field *ngIf="inPeriod=='annual'" class="inline marginLeft" appearance="fill">
+        <input matInput [value]="inDate">
         <mat-label>Akutális év</mat-label>
-        <mat-select [(value)]="date" (selectionChange)="selectEvent()">
+        <mat-select [(value)]="inDate" (selectionChange)="selectEvent()">
             <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
         </mat-select>
     </mat-form-field>

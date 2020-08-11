@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateService } from 'src/app/service/dateService/date.service';
 import { DatePipe } from '@angular/common';
@@ -19,13 +19,13 @@ export interface uzemoraEsFogyasztasAdatok {
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit,OnChanges {
 
   displayedColumns: string[] = ['idoszak', 'fogyasztas', 'meddoEnergia', 'uzemora', 'uzemszunet', 'maxTeljesitmeny', 'termeles', 'bevetel'];
   data: uzemoraEsFogyasztasAdatok[] = [];
   temp: uzemoraEsFogyasztasAdatok;
-  currentDate: string;
-  currentPeriodType: string;
+  @Input() currentDate: string;
+  @Input() currentPeriodType: string;
 
   constructor(private _snackBar: MatSnackBar, public dateService: DateService, public datePipe: DatePipe) { }
 
@@ -89,17 +89,12 @@ export class TableComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    this.dateService.currentPeriodType.subscribe(currPeriodType => {
-      if (currPeriodType != null) {
-        this.currentPeriodType = currPeriodType; if (currPeriodType == 'daily') {
-        }
-      } else {
-        this.currentPeriodType = 'daily';
-      }
-    });
-    this.dateService.currentDate.subscribe(currDate => { if (currDate == null) { this.currentDate = this.datePipe.transform(new Date(), 'yyyy.MM.dd'); this.generateData(); } else { this.currentDate = currDate; this.generateData(); } });
+  ngOnChanges(): void {
+    this.generateData();
+  }
 
+  ngOnInit(): void {
+    this.generateData();
   }
 
 }

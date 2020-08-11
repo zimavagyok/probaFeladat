@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, EventEmitter, Output, Input, OnChanges } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import * as Highcharts from 'highcharts';
 import { DateService } from 'src/app/service/dateService/date.service';
@@ -8,13 +8,14 @@ import { DateService } from 'src/app/service/dateService/date.service';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent implements OnInit {
+export class ChartComponent implements OnInit,OnChanges {
 
+  @Output() date = new EventEmitter();
   categories: string[] = [];
-  chartType: string;
-  periodHun: string;
-  currentDate: string;
-  currentPeriodType: string;
+  @Input() chartType: string;
+  @Input() periodHun: string;
+  @Input() currentDate: string;
+  @Input() currentPeriodType: string;
   values: number[] = [];
 
 
@@ -22,40 +23,53 @@ export class ChartComponent implements OnInit {
   constructor(public datePipe: DatePipe, public dateService: DateService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.dateService.currentPeriodType.subscribe(currPeriodType => {
-      if (currPeriodType != null) {
-        this.currentPeriodType = currPeriodType; if (currPeriodType == 'daily') {
-        }
-      } else {
-        this.currentPeriodType = 'daily';
-      }
-    });
-    this.dateService.currentChartType.subscribe(currChartType => {
-      this.chartType = currChartType;
+    if (this.currentPeriodType != null) {
       if (this.currentPeriodType == 'daily') {
-        this.DayChartPopulation();
       }
-      else if (this.currentPeriodType == 'monthly') {
-        this.MonthChartPopulation();
-      }
-      else if (this.currentPeriodType == 'annual') {
-        this.YearsChartPopulation();
-      }
-    });
-    this.dateService.currentPeriodHun.subscribe(currPeriodHun => this.periodHun = currPeriodHun);
-    this.dateService.currentDate.subscribe(currDate => {
-      this.currentDate = currDate;
-      if (this.currentPeriodType == 'daily') {
-        this.DayChartPopulation();
-      }
-      else if (this.currentPeriodType == 'monthly') {
-        this.MonthChartPopulation();
-      }
-      else if (this.currentPeriodType == 'annual') {
-        this.YearsChartPopulation();
-      }
+    }
+    if (this.currentPeriodType == 'daily') {
+      this.DayChartPopulation();
+    }
+    else if (this.currentPeriodType == 'monthly') {
+      this.MonthChartPopulation();
+    }
+    else if (this.currentPeriodType == 'annual') {
+      this.YearsChartPopulation();
+    }
+    if (this.currentPeriodType == 'daily') {
+      this.DayChartPopulation();
+    }
+    else if (this.currentPeriodType == 'monthly') {
+      this.MonthChartPopulation();
+    }
+    else if (this.currentPeriodType == 'annual') {
+      this.YearsChartPopulation();
+    }
+  }
 
-    });
+  ngOnChanges(): void {
+    if (this.currentPeriodType != null) {
+      if (this.currentPeriodType == 'daily') {
+      }
+    }
+    if (this.currentPeriodType == 'daily') {
+      this.DayChartPopulation();
+    }
+    else if (this.currentPeriodType == 'monthly') {
+      this.MonthChartPopulation();
+    }
+    else if (this.currentPeriodType == 'annual') {
+      this.YearsChartPopulation();
+    }
+    if (this.currentPeriodType == 'daily') {
+      this.DayChartPopulation();
+    }
+    else if (this.currentPeriodType == 'monthly') {
+      this.MonthChartPopulation();
+    }
+    else if (this.currentPeriodType == 'annual') {
+      this.YearsChartPopulation();
+    }
   }
 
   randomGenerator(min, max) {
@@ -64,25 +78,25 @@ export class ChartComponent implements OnInit {
 
   incrementDate() {
     if (this.currentPeriodType == 'daily') {
-      this.dateService.changeDate(this.datePipe.transform(new Date(new Date(this.currentDate).getTime() + (1000 * 60 * 60 * 24)).toDateString(), 'yyyy.MM.dd'));
+      this.date.emit(this.datePipe.transform(new Date(new Date(this.currentDate).getTime() + (1000 * 60 * 60 * 24)).toDateString(), 'yyyy.MM.dd'));
     }
     else if (this.currentPeriodType == 'monthly') {
-      this.dateService.changeDate(this.datePipe.transform(new Date(new Date(this.currentDate).setMonth(new Date(this.currentDate).getMonth() + 1)).toDateString(), 'yyyy.LL'));
+      this.date.emit(this.datePipe.transform(new Date(new Date(this.currentDate).setMonth(new Date(this.currentDate).getMonth() + 1)).toDateString(), 'yyyy.LL'));
     }
     else if (this.currentPeriodType == 'annual') {
-      this.dateService.changeDate((parseInt(this.currentDate) + 1).toString());
+      this.date.emit((parseInt(this.currentDate) + 1).toString());
     }
   }
 
   decrementDate() {
     if (this.currentPeriodType == 'daily') {
-      this.dateService.changeDate(this.datePipe.transform(new Date(new Date(this.currentDate).getTime() - (1000 * 60 * 60 * 24)).toDateString(), 'yyyy.MM.dd'));
+      this.date.emit(this.datePipe.transform(new Date(new Date(this.currentDate).getTime() - (1000 * 60 * 60 * 24)).toDateString(), 'yyyy.MM.dd'));
     }
     else if (this.currentPeriodType == 'monthly') {
-      this.dateService.changeDate(this.datePipe.transform(new Date(new Date(this.currentDate).setMonth(new Date(this.currentDate).getMonth() - 1)).toDateString(), 'yyyy.LL'));
+      this.date.emit(this.datePipe.transform(new Date(new Date(this.currentDate).setMonth(new Date(this.currentDate).getMonth() - 1)).toDateString(), 'yyyy.LL'));
     }
     else if (this.currentPeriodType == 'annual') {
-      this.dateService.changeDate((parseInt(this.currentDate) - 1).toString());
+      this.date.emit((parseInt(this.currentDate) - 1).toString());
     }
   }
 
