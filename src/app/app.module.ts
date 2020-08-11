@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,13 +13,15 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DateService } from './service/dateService/date.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import {HighchartsChartModule} from 'highcharts-angular';
 import {MatCardModule, MatCard} from '@angular/material/card';
 import {MatGridListModule,MatGridTile} from '@angular/material/grid-list';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
+import localeHu from '@angular/common/locales/hu';
+registerLocaleData(localeHu);
 
 
 
@@ -49,7 +51,7 @@ import {MatTableModule} from '@angular/material/table';
     MatTableModule,
     HighchartsChartModule
   ],
-  providers: [MatDatepickerModule,DateService,DatePipe],
+  providers: [MatDatepickerModule,DateService,DatePipe,{ provide: LOCALE_ID, useValue: 'hu-HU'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
