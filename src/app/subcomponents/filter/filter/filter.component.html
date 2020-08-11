@@ -1,4 +1,4 @@
-<mat-form-field appearance="fill">
+<mat-form-field class="inline" appearance="fill">
     <input matInput />
     <mat-label>Időszak</mat-label>
     <mat-select [(value)]="period">
@@ -8,32 +8,32 @@
     </mat-select>
 </mat-form-field>
 
-<div *ngIf="period=='daily'">
-    <mat-form-field appearance="fill">
+<!--<div *ngIf="period=='daily'" class="inline marginLeft">-->
+    <mat-form-field *ngIf="period=='daily'" class="inline marginLeft" appearance="fill">
         <mat-label>Aktuális nap</mat-label>
         <input matInput [matDatepicker]="picker" placeholder="Aktuális nap" (dateInput)="addEvent($event)"
             (dateChange)="addEvent($event)" [value]="dateForm.value">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker [startAt]="dateForm" #picker></mat-datepicker>
     </mat-form-field>
-</div>
+<!--</div>-->
 
-<div *ngIf="period=='monthly'">
-    <mat-form-field appearance="fill">
+<!--<div *ngIf="period=='monthly'" class="inline marginLeft">-->
+    <mat-form-field *ngIf="period=='monthly'" class="inline marginLeft" appearance="fill">
         <mat-label>Aktuális hónap</mat-label>
         <input matInput [matDatepicker]="picker" placeholder="Aktuális hónap" (dateInput)="addEvent($event)"
             (dateChange)="addEvent($event)" [value]="dateForm.value">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker startView="year"></mat-datepicker>
     </mat-form-field>
-</div>
+<!--</div>-->
 
-<div *ngIf="period=='annual'">
-    <mat-form-field appearance="fill">
+<!--<div *ngIf="period=='annual'" class="inline marginLeft">-->
+    <mat-form-field *ngIf="period=='annual'" class="inline marginLeft" appearance="fill">
         <input matInput [value]="date">
         <mat-label>Akutális év</mat-label>
         <mat-select [(value)]="date" (selectionChange)="selectEvent()">
             <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
         </mat-select>
     </mat-form-field>
-</div>
+<!--</div>-->

@@ -21,7 +21,7 @@ export interface uzemoraEsFogyasztasAdatok {
 })
 export class TableComponent implements OnInit {
 
-  displayedColumns: string[] = ['idoszak', 'fogyasztas', 'meddoEnergia', 'uzemora','uzemszunet','maxTeljesitmeny','termeles','bevetel'];
+  displayedColumns: string[] = ['idoszak', 'fogyasztas', 'meddoEnergia', 'uzemora', 'uzemszunet', 'maxTeljesitmeny', 'termeles', 'bevetel'];
   data: uzemoraEsFogyasztasAdatok[] = [];
   temp: uzemoraEsFogyasztasAdatok;
   currentDate: string;
@@ -41,27 +41,52 @@ export class TableComponent implements OnInit {
 
   generateData() {
     this.data = [];
-    for (let i = 0; i < 30; i++) {
-      this.temp = {
-        idoszak : this.datePipe.transform(new Date(new Date(this.currentDate).getTime() - (i * (1000 * 60 * 60 * 24))).toDateString(), 'yyyy.MM.dd'),
-        fogyasztas : this.randomGenerator(0, 10),
-        meddoEnergia : this.randomGenerator(10, 50),
-        uzemOra : this.randomGenerator(4, 20),
-        uzemszunet : '-',
-        maxTeljesitmeny : this.randomGenerator(400, 500),
-        termeles : this.randomGenerator(1300, 3000),
-        bevetel : this.randomGenerator(40000, 90000)
-      };
-      /*this.temp.idoszak = this.datePipe.transform(new Date(new Date(this.currentDate).getTime() - (i * (1000 * 60 * 60 * 24))).toDateString(), 'yyyy.MM.dd');
-      this.temp.fogyasztas = this.randomGenerator(0, 10);
-      this.temp.meddoEnergia = this.randomGenerator(10, 50);
-      this.temp.uzemOra = this.randomGenerator(4, 20);
-      this.temp.uzemszunet = '-';
-      this.temp.maxTeljesitmeny = this.randomGenerator(400, 500);
-      this.temp.termeles = this.randomGenerator(1300, 3000);
-      this.temp.bevetel = this.randomGenerator(40000, 90000);*/
-      this.data.push(this.temp);
+    if (this.currentPeriodType == 'daily') {
+      for (let i = 0; i < 30; i++) {
+        this.temp = {
+          idoszak: this.datePipe.transform(new Date(new Date(this.currentDate).getTime() - (i * (1000 * 60 * 60 * 24))).toDateString(), 'yyyy.MM.dd'),
+          fogyasztas: this.randomGenerator(0, 10),
+          meddoEnergia: this.randomGenerator(10, 50),
+          uzemOra: this.randomGenerator(4, 20),
+          uzemszunet: '-',
+          maxTeljesitmeny: this.randomGenerator(400, 500),
+          termeles: this.randomGenerator(1300, 3000),
+          bevetel: this.randomGenerator(40000, 90000)
+        };
+        this.data.push(this.temp);
+      }
     }
+    else if (this.currentPeriodType == 'monthly') {
+      for (let i = 0; i < 30; i++) {
+        this.temp = {
+          idoszak: this.datePipe.transform(new Date(new Date(this.currentDate).setMonth(new Date(this.currentDate).getMonth() - (i*1))).toDateString(), 'yyyy.LL'),
+          fogyasztas: this.randomGenerator(0, 10),
+          meddoEnergia: this.randomGenerator(10, 50),
+          uzemOra: this.randomGenerator(4, 20),
+          uzemszunet: '-',
+          maxTeljesitmeny: this.randomGenerator(400, 500),
+          termeles: this.randomGenerator(1300, 3000),
+          bevetel: this.randomGenerator(40000, 90000)
+        };
+        this.data.push(this.temp);
+      }
+    }
+    else if (this.currentPeriodType == 'annual') {
+      for (let i = 0; i < 5; i++) {
+        this.temp = {
+          idoszak: (parseInt(this.currentDate) - (i*1)).toString(),
+          fogyasztas: this.randomGenerator(0, 10),
+          meddoEnergia: this.randomGenerator(10, 50),
+          uzemOra: this.randomGenerator(4, 20),
+          uzemszunet: '-',
+          maxTeljesitmeny: this.randomGenerator(400, 500),
+          termeles: this.randomGenerator(1300, 3000),
+          bevetel: this.randomGenerator(40000, 90000)
+        };
+        this.data.push(this.temp);
+      }
+    }
+
   }
 
   ngOnInit(): void {
@@ -73,7 +98,7 @@ export class TableComponent implements OnInit {
         this.currentPeriodType = 'daily';
       }
     });
-    this.dateService.currentDate.subscribe(currDate => {if(currDate==null){this.currentDate=this.datePipe.transform(new Date(), 'yyyy.MM.dd'); this.generateData();} else{ this.currentDate = currDate; this.generateData(); }});
+    this.dateService.currentDate.subscribe(currDate => { if (currDate == null) { this.currentDate = this.datePipe.transform(new Date(), 'yyyy.MM.dd'); this.generateData(); } else { this.currentDate = currDate; this.generateData(); } });
 
   }
 

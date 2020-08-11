@@ -5,3 +5,11 @@
   .month-picker .mat-calendar-arrow {
     display: none;
   }
+
+  .inline{
+    display: inline-block;
+  }
+
+  .marginLeft{
+    margin-left: 2em;
+  }
