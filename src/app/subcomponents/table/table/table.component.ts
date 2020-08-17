@@ -61,7 +61,7 @@ export class TableComponent implements OnChanges {
     else if (this.currentPeriodType == 'monthly') {
       for (let i = 0; i <= new Date(this.currentDate).getMonth(); i++) {
         this.temp = {
-          idoszak: this.datePipe.transform(new Date(new Date(this.currentDate).setMonth(new Date(this.currentDate).getMonth() - (i*1))).toDateString(), 'yyyy  LLLL'),
+          idoszak: this.datePipe.transform(new Date(new Date(this.currentDate).setMonth(new Date(this.currentDate).getMonth() - (i*1))).toDateString(), 'LLLL'),
           fogyasztas: this.randomGenerator(0, 10),
           meddoEnergia: this.randomGenerator(10, 50),
           uzemOra: this.randomGenerator(4, 20),
