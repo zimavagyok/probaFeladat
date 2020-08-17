@@ -1,7 +1,7 @@
 <mat-form-field class="inline" appearance="fill">
     <input matInput />
     <mat-label>Időszak</mat-label>
-    <mat-select [(value)]="inPeriod">
+    <mat-select [(value)]="inPeriod" (selectionChange)="selectedPeriod()">
         <mat-option value="daily">Napi</mat-option>
         <mat-option value="monthly">Havi</mat-option>
         <mat-option value="annual">Éves</mat-option>

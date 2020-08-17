@@ -9,10 +9,11 @@ import { DatePipe } from '@angular/common';
 export class AppComponent {
   title = 'Solis ortus';
 
-  currentDate : string = this.datePipe.transform(new Date(), 'yyyy.MM.dd');;
+  currentDate : string = this.datePipe.transform(new Date(), 'yyyy.MM.dd');
   periodType : string = 'daily';
   chartType : string = 'line';
   periodHun : string ='Napi';
+  fullDate : string = this.datePipe.transform(new Date(), 'yyyy.MM.dd');
 
   changeCurrentDate(p)
   {
@@ -32,6 +33,11 @@ export class AppComponent {
   changePeriodHun(p)
   {
     this.periodHun = p;
+  }
+
+  changeFullDate(p)
+  {
+    this.fullDate = p;
   }
 
   constructor(public datePipe: DatePipe) { }

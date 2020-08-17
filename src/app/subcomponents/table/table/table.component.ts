@@ -19,13 +19,15 @@ export interface uzemoraEsFogyasztasAdatok {
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit,OnChanges {
+export class TableComponent implements OnChanges {
 
   displayedColumns: string[] = ['idoszak', 'fogyasztas', 'meddoEnergia', 'uzemora', 'uzemszunet', 'maxTeljesitmeny', 'termeles', 'bevetel'];
   data: uzemoraEsFogyasztasAdatok[] = [];
   temp: uzemoraEsFogyasztasAdatok;
   @Input() currentDate: string;
   @Input() currentPeriodType: string;
+
+  months : string[] = ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'];
 
   constructor(private _snackBar: MatSnackBar, public dateService: DateService, public datePipe: DatePipe) { }
 
@@ -57,7 +59,7 @@ export class TableComponent implements OnInit,OnChanges {
       }
     }
     else if (this.currentPeriodType == 'monthly') {
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i <= new Date(this.currentDate).getMonth(); i++) {
         this.temp = {
           idoszak: this.datePipe.transform(new Date(new Date(this.currentDate).setMonth(new Date(this.currentDate).getMonth() - (i*1))).toDateString(), 'yyyy  LLLL'),
           fogyasztas: this.randomGenerator(0, 10),
@@ -72,9 +74,9 @@ export class TableComponent implements OnInit,OnChanges {
       }
     }
     else if (this.currentPeriodType == 'annual') {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 12; i++) {
         this.temp = {
-          idoszak: (parseInt(this.currentDate) - (i*1)).toString(),
+          idoszak: this.months[i],
           fogyasztas: this.randomGenerator(0, 10),
           meddoEnergia: this.randomGenerator(10, 50),
           uzemOra: this.randomGenerator(4, 20),
@@ -90,10 +92,6 @@ export class TableComponent implements OnInit,OnChanges {
   }
 
   ngOnChanges(): void {
-    this.generateData();
-  }
-
-  ngOnInit(): void {
     this.generateData();
   }
 

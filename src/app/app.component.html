@@ -1,6 +1,6 @@
-<app-filter [inPeriod]="periodType" [inDate]="currentDate" [inChartType]="chartType" [inPeriodHun]="periodHun" (period)="changePeriodType($event)" (date)="changeCurrentDate($event)" (chartType)="changeChartType($event)" (periodHun)="changePeriodHun($event)"></app-filter>
+<app-filter [inFullDate]="fullDate" [inPeriod]="periodType" [inDate]="currentDate" [inChartType]="chartType" [inPeriodHun]="periodHun" (period)="changePeriodType($event)" (date)="changeCurrentDate($event)" (chartType)="changeChartType($event)" (periodHun)="changePeriodHun($event)" (fullDate)="changeFullDate($event)"></app-filter>
 
-<app-chart (date)="changeCurrentDate($event)" [chartType]="chartType" [periodHun]="periodHun" [currentDate]="currentDate" [currentPeriodType]="periodType"></app-chart>
+<app-chart (date)="changeCurrentDate($event)" (outFullDate)="changeFullDate($event)" [inFullDate]="fullDate" [chartType]="chartType" [periodHun]="periodHun" [currentDate]="currentDate" [currentPeriodType]="periodType"></app-chart>
 
 <app-table [currentDate]="currentDate" [currentPeriodType]="periodType"></app-table>
 
